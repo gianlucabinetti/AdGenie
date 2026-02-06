@@ -1,65 +1,65 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { HeroSection } from "@/components/hero-section";
+import { BriefForm, BriefData } from "@/components/brief-form";
+import { LoadingView } from "@/components/loading-view";
+import { CampaignDashboard } from "@/components/campaign-dashboard";
 
 export default function Home() {
+  const [view, setView] = useState<"hero" | "brief" | "loading" | "dashboard">("hero");
+  const [campaignData, setCampaignData] = useState<any>(null);
+
+  const handleStart = () => setView("brief");
+
+  const handleBriefSubmit = async (data: BriefData) => {
+    setView("loading");
+    try {
+      const response = await fetch("/api/generate-campaign", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) throw new Error("Failed to generate");
+
+      const result = await response.json();
+      setCampaignData({ ...result, ...data });
+      setView("dashboard");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to generate campaign. Please try again.");
+      setView("brief");
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main className="flex min-h-screen flex-col w-full bg-background selection:bg-primary/20">
+      {/* Global Logo */}
+      <div className="absolute top-8 left-8 z-50">
+        <div className="flex items-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/ad-genie-logo.png"
+            alt="Ad Genie Logo"
+            className="h-28 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity"
+          />
+        </div>
+      </div>
+
+      {view === "hero" && <HeroSection onStart={handleStart} />}
+      {view === "brief" && <BriefForm onSubmit={handleBriefSubmit} />}
+      {view === "loading" && <LoadingView />}
+      {view === "dashboard" && campaignData && (
+        <CampaignDashboard
+          data={campaignData}
+          onReset={() => {
+            setCampaignData(null);
+            setView("hero");
+          }}
+          onUpdate={(newData) => setCampaignData((prev: any) => ({ ...prev, ...newData }))}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      )}
+    </main>
   );
 }
