@@ -4,7 +4,7 @@
 
 ---
 
-## 🏆 Judge's Guide: Gemini 3 API Usage
+##  Judge's Guide: Gemini 3 API Usage
 
 This project explicitly leverages the latest capabilities of the Gemini ecosystem:
 
@@ -16,7 +16,7 @@ This project explicitly leverages the latest capabilities of the Gemini ecosyste
 
 ---
 
-## 🧠 System Architecture: Agent-to-Agent (A2A) Framework
+##  System Architecture: Agent-to-Agent (A2A) Framework
 
 The core of AdGenie is built on a custom **Agent-to-Agent (A2A)** framework located in `src/lib/a2a`. Unlike simple prompt chains, these Agents are autonomous entities that use **Tools** to perform complex tasks.
 
@@ -50,7 +50,7 @@ graph TD
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 ### 1. Holistic Campaign Strategy
 *   **Deep Persona Analysis**: Generates detailed target personas with demographics, psychographics, and buying behaviors.
@@ -77,7 +77,7 @@ graph TD
 
 ---
 
-## 🛠️ Tech Stack (Bleeding Edge)
+##  Tech Stack (Bleeding Edge)
 
 *   **Framework**: **Next.js 16** (App Router)
 *   **Library**: **React 19**
@@ -87,7 +87,7 @@ graph TD
 
 ---
 
-## 📂 Core Agents (`src/lib/agents`)
+##  Core Agents (`src/lib/agents`)
 
 ### 1. The Campaign Agent (`campaign-agent.ts`)
 *   **Role**: Creative Director & Strategist.
@@ -103,7 +103,7 @@ graph TD
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 1.  **Environment Setup**:
     ```bash
