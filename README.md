@@ -37,7 +37,7 @@ graph TD
     JSON -->|Copy Request| CP(Copywriting Agent)
     
     subgraph "Production Layer"
-        IA -->|1. Contextual Refinement| GEM[Gemini 1.5 Pro]
+        IA -->|1. Contextual Refinement| GEM[Gemini 2.5 Flash Lite]
         GEM -->|2. Generate| IMG[Gemini 3 Pro Image]
         
         CP -->|1. Strategy Analysis| GEM_COPY[Gemini 2.5 Flash Lite]
